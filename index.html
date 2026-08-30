@@ -1,1 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Управление климатом</title>
 
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #f3f6f9;
+    color: #17212b;
+}
+
+.app {
+    max-width: 520px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.header {
+    padding: 10px 0 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.header p {
+    margin: 7px 0 0;
+    color: #72808c;
+    font-size: 15px;
+}
+
+.card {
+    background: white;
+    border-radius: 24px;
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+}
+
+.device {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.device-name {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.status {
+    color: #27a45b;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.power {
+    width: 58px;
+    height: 58px;
+    border: none;
+    border-radius: 50%;
+    background: #e9f7ef;
+    color: #24a15a;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.power.off {
+    background: #edf0f3;
+    color: #7d8993;
+}
+
+.temperature {
+    text-align: center;
+    padding: 15px 0 20px;
+}
+
+.temperature-value {
+    font-size: 76px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+.temperature-value span {
+    font-size: 30px;
+    vertical-align: top;
+    color: #6c7780;
+}
+
+.room {
+    color: #7b8790;
+    margin-top: 10px;
+}
+
+.temp-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.temp-btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 18px;
+    background: #eef2f5;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.temp-btn:active {
+    transform: scale(.95);
+}
+
+.title {
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 14px;
+}
+
+.modes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.mode {
+    border: none;
+    background: #f0f3f5;
+    border-radius: 17px;
+    padding: 15px 5px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #5e6b75;
+}
+
+.mode .icon {
+    display: block;
+    font-size: 25px;
+    margin-bottom: 7px;
+}
+
+.mode.active {
+    background: #17212b;
+    color: white;
+}
+
+.slider-box {
+    margin-top: 20px;
+}
+
+.slider-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #687681;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: #17212b;
+}
+
+.schedule {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.schedule-info {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.schedule-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 14px;
+    background: #eef2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.schedule-text strong {
+    display: block;
+}
+
+.schedule-text span {
+    color: #7b8790;
+    font-size: 13px;
+}
+
+.switch {
+    position: relative;
+    width: 52px;
+    height: 30px;
+}
+
+.switch input {
+    display: none;
+}
+
+.switch span {
+    position: absolute;
+    inset: 0;
+    background: #d9dee3;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.switch span:before {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: .2s;
+}
+
+.switch input:checked + span {
+    background: #24a15a;
+}
+
+.switch input:checked + span:before {
+    transform: translateX(22px);
+}
+
+.footer {
+    text-align: center;
+    color: #9aa4ac;
+    font-size: 12px;
+    padding: 10px 0 25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+        <h1>Управление климатом</h1>
+        <p>Контроль климатической техники</p>
+    </div>
+
+    <div class="card">
+
+        <div class="device">
+            <div>
+                <div class="device-name">Кондиционер</div>
+                <div class="status" id="status">● Включён</div>
+            </div>
+
+            <button class="power" id="power">⏻</button>
+        </div>
+
+        <div class="temperature">
+            <div class="temperature-value">
+                <span id="temp">22</span>°
+            </div>
+            <div class="room">Температура в комнате: 24°</div>
+
+            <div class="temp-buttons">
+                <button class="temp-btn" onclick="changeTemp(-1)">−</button>
+                <button class="temp-btn" onclick="changeTemp(1)">+</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="title">Режим работы</div>
+
+        <div class="modes">
+
+            <button class="mode active" onclick="setMode(this)">
+                <span class="icon">❄️</span>
+                Охлаждение
+            </button>
+
+            <button class="mode" onclick="setMode(this)">
+                <span class="icon">☀️</span>
+                Обогрев
+            </button>
+
+            <button class="mode" onclick="setMode(this)">
+                <span class="icon">💧</span>
+                Осушение
+            </button>
+
+        </div>
+
+        <div class="slider-box">
+
+            <div class="slider-row">
+                <span>Скорость вентилятора</span>
+                <strong id="fanValue">50%</strong>
+            </div>
+
+            <input
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                id="fan"
+            >
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="title">Расписание</div>
+
+        <div class="schedule">
+
+            <div class="schedule-info">
+
+                <div class="schedule-icon">⏰</div>
+
+                <div class="schedule-text">
+                    <strong>Автоматическое включение</strong>
+                    <span>Каждый день в 07:00</span>
+                </div>
+
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span></span>
+            </label>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="title">Состояние системы</div>
+
+        <div style="line-height:2;color:#64727d;">
+            🌡 Температура: <b>24°</b><br>
+            💧 Влажность: <b>48%</b><br>
+            🌬 Качество воздуха: <b>Хорошее</b><br>
+            ⚡ Энергопотребление: <b>0,8 кВт</b>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Управление климатом • Smart Climate
+    </div>
+
+</div>
+
+<script>
+
+let temperature = 22;
+let isOn = true;
+
+function changeTemp(value) {
+
+    if (!isOn) return;
+
+    temperature += value;
+
+    if (temperature < 16) temperature = 16;
+    if (temperature > 30) temperature = 30;
+
+    document.getElementById("temp").textContent = temperature;
+}
+
+document.getElementById("power").addEventListener("click", function() {
+
+    isOn = !isOn;
+
+    const button = document.getElementById("power");
+    const status = document.getElementById("status");
+
+    if (isOn) {
+
+        button.classList.remove("off");
+        status.textContent = "● Включён";
+        status.style.color = "#27a45b";
+
+    } else {
+
+        button.classList.add("off");
+        status.textContent = "● Выключен";
+        status.style.color = "#7d8993";
+    }
+
+});
+
+function setMode(button) {
+
+    document.querySelectorAll(".mode").forEach(function(item) {
+        item.classList.remove("active");
+    });
+
+    button.classList.add("active");
+}
+
+document.getElementById("fan").addEventListener("input", function() {
+
+    document.getElementById("fanValue").textContent =
+        this.value + "%";
+
+});
+
+</script>
+
+</body>
+</html>
