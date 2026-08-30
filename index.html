@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Калькулятор стоимости — Управление климата</title>
+<title>Управление климатом — Калькулятор</title>
 
 <style>
 * {
@@ -20,20 +19,20 @@ body {
 
 .app {
     max-width: 560px;
-    margin: auto;
-    padding: 22px 18px 40px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
 }
 
 .logo {
     width: 64px;
     height: 64px;
-    margin: 0 auto 14px;
-    border-radius: 20px;
+    margin: 0 auto 12px;
+    border-radius: 18px;
     background: #17212b;
     color: white;
     display: flex;
@@ -44,69 +43,85 @@ body {
 
 h1 {
     margin: 0;
-    font-size: 29px;
+    font-size: 28px;
 }
 
 .subtitle {
-    color: #72808c;
-    margin-top: 8px;
-    font-size: 16px;
+    margin-top: 7px;
+    color: #71808c;
+    font-size: 15px;
 }
 
 .card {
     background: white;
-    border-radius: 24px;
-    padding: 22px;
-    margin-bottom: 16px;
-    box-shadow: 0 5px 25px rgba(0,0,0,.06);
+    border-radius: 22px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.06);
 }
 
 .title {
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 700;
-    margin-bottom: 17px;
+    margin-bottom: 15px;
 }
 
-label {
+.service {
+    width: 100%;
+    border: 2px solid #e5eaee;
+    background: white;
+    border-radius: 17px;
+    padding: 17px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.service.active {
+    border-color: #17212b;
+    background: #f2f5f7;
+}
+
+.service-icon {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e4e9ed;
+    border-radius: 14px;
+    background: white;
+    font-size: 16px;
+    color: #17212b;
+}
+
+.field {
+    margin-top: 17px;
+}
+
+.field label {
     display: block;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
-select,
-input[type="number"] {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #e5e9ed;
-    border-radius: 15px;
-    background: white;
-    font-size: 16px;
-    color: #17212b;
-    outline: none;
-}
-
-select:focus,
-input:focus {
-    border-color: #17212b;
-}
-
-.field {
-    margin-bottom: 18px;
-}
-
 .quantity {
     display: flex;
-    gap: 10px;
     align-items: center;
+    gap: 10px;
 }
 
 .quantity button {
     width: 52px;
     height: 52px;
     border: 0;
-    border-radius: 15px;
+    border-radius: 14px;
     background: #edf1f4;
-    font-size: 26px;
+    font-size: 28px;
     cursor: pointer;
 }
 
@@ -114,48 +129,16 @@ input:focus {
     text-align: center;
 }
 
-.check {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 0;
-    border-bottom: 1px solid #edf0f2;
-}
-
-.check:last-child {
-    border-bottom: 0;
-}
-
-.check input {
-    width: 21px;
-    height: 21px;
-}
-
-.check label {
-    margin: 0;
-    font-weight: 500;
-    flex: 1;
-}
-
-.price {
-    color: #6f7c86;
-    white-space: nowrap;
-}
-
 .calculate {
     width: 100%;
     border: 0;
-    border-radius: 18px;
-    padding: 18px;
+    border-radius: 16px;
+    padding: 17px;
     background: #17212b;
     color: white;
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
-}
-
-.calculate:active {
-    transform: scale(.98);
 }
 
 .result {
@@ -167,52 +150,79 @@ input:focus {
     display: block;
 }
 
-.result-title {
-    color: #75828c;
-    font-size: 15px;
+.result-label {
+    color: #71808c;
+    font-size: 14px;
 }
 
 .total {
-    font-size: 44px;
+    font-size: 42px;
     font-weight: 800;
-    margin: 8px 0;
-}
-
-.rub {
-    font-size: 25px;
+    margin: 5px 0 10px;
 }
 
 .details {
+    border-top: 1px solid #e8ecef;
+    padding-top: 10px;
     text-align: left;
-    margin-top: 18px;
-    border-top: 1px solid #edf0f2;
-    padding-top: 15px;
 }
 
 .detail {
     display: flex;
     justify-content: space-between;
     padding: 7px 0;
-    color: #66747e;
+    color: #687681;
 }
 
 .detail strong {
     color: #17212b;
 }
 
-.note {
-    text-align: center;
-    color: #89949c;
-    font-size: 13px;
-    line-height: 1.5;
-    margin-top: 18px;
+.request {
+    display: none;
 }
 
-.footer {
+.request.show {
+    display: block;
+}
+
+.request input,
+.request textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #e4e9ed;
+    border-radius: 14px;
+    font-size: 16px;
+    margin-bottom: 11px;
+    font-family: inherit;
+}
+
+.request textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.send {
+    width: 100%;
+    border: 0;
+    border-radius: 16px;
+    padding: 17px;
+    background: #20a464;
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.note {
     text-align: center;
-    color: #a0a9b0;
+    color: #8a969f;
     font-size: 12px;
-    margin-top: 25px;
+    line-height: 1.5;
+    margin-top: 14px;
+}
+
+.hidden {
+    display: none;
 }
 </style>
 </head>
@@ -223,83 +233,86 @@ input:focus {
 
     <div class="header">
 
-        <div class="logo">❄️</div>
+        <div class="logo">🌬️</div>
 
-        <h1>Управление климата</h1>
+        <h1>Управление климатом</h1>
 
         <div class="subtitle">
-            Калькулятор стоимости услуг
+            Калькулятор стоимости
         </div>
 
     </div>
 
 
+    <!-- ВЫБОР УСЛУГИ -->
+
     <div class="card">
 
         <div class="title">
-            1. Выберите услугу
+            1. Что вам нужно?
         </div>
+
+        <button
+            class="service"
+            id="drillingButton"
+            onclick="chooseService('drilling')"
+        >
+            <span class="service-icon">🕳️</span>
+            <strong>Алмазное бурение</strong>
+            <br>
+            <small>Отверстия под бризеры, вентиляцию, кондиционеры и коммуникации</small>
+        </button>
+
+
+        <button
+            class="service"
+            id="breatherButton"
+            onclick="chooseService('breather')"
+        >
+            <span class="service-icon">🌬️</span>
+            <strong>Монтаж бризера</strong>
+            <br>
+            <small>Монтаж на готовый ремонт</small>
+        </button>
+
+    </div>
+
+
+    <!-- АЛМАЗНОЕ БУРЕНИЕ -->
+
+    <div
+        class="card hidden"
+        id="drillingCard"
+    >
+
+        <div class="title">
+            2. Параметры бурения
+        </div>
+
 
         <div class="field">
 
-            <label for="service">
-                Вид работы
+            <label>
+                Диаметр отверстия
             </label>
 
-            <select id="service">
+            <select id="diameter">
 
-                <option value="2500">
-                    Диагностика кондиционера — 2 500 ₽
-                </option>
+                <option value="5000">42 мм — 5 000 ₽</option>
 
-                <option value="5000">
-                    Обслуживание кондиционера — 5 000 ₽
-                </option>
+                <option value="5000">62 мм — 5 000 ₽</option>
 
-                <option value="8000">
-                    Монтаж кондиционера — 8 000 ₽
-                </option>
+                <option value="5000">92 мм — 5 000 ₽</option>
 
-                <option value="4500">
-                    Демонтаж кондиционера — 4 500 ₽
-                </option>
+                <option value="6000">102 мм — 6 000 ₽</option>
 
-                <option value="3500">
-                    Заправка кондиционера — 3 500 ₽
-                </option>
+                <option value="6000">107 мм — 6 000 ₽</option>
 
-                <option value="3000">
-                    Ремонт кондиционера — от 3 000 ₽
-                </option>
+                <option value="6000">112 мм — 6 000 ₽</option>
 
-            </select>
+                <option value="6000">132 мм — 6 000 ₽</option>
 
-        </div>
-
-
-        <div class="field">
-
-            <label for="equipment">
-                Тип оборудования
-            </label>
-
-            <select id="equipment">
-
-                <option value="1">
-                    Настенный кондиционер
-                </option>
-
-                <option value="1.3">
-                    Кассетный кондиционер
-                </option>
-
-                <option value="1.5">
-                    Канальная система
-                </option>
-
-                <option value="1.8">
-                    Мульти-сплит система
-                </option>
+                <option value="8000">162 мм — 8 000 ₽</option>
 
             </select>
 
@@ -309,24 +322,24 @@ input:focus {
         <div class="field">
 
             <label>
-                Количество оборудования
+                Количество отверстий
             </label>
 
             <div class="quantity">
 
-                <button onclick="changeQuantity(-1)">
+                <button onclick="changeQuantity('drilling', -1)">
                     −
                 </button>
 
                 <input
+                    id="drillingQuantity"
                     type="number"
-                    id="quantity"
                     value="1"
                     min="1"
-                    max="20"
+                    max="50"
                 >
 
-                <button onclick="changeQuantity(1)">
+                <button onclick="changeQuantity('drilling', 1)">
                     +
                 </button>
 
@@ -337,92 +350,80 @@ input:focus {
     </div>
 
 
-    <div class="card">
+    <!-- МОНТАЖ БРИЗЕРА -->
+
+    <div
+        class="card hidden"
+        id="breatherCard"
+    >
 
         <div class="title">
-            2. Дополнительные работы
+            2. Вариант монтажа
         </div>
 
 
-        <div class="check">
+        <div class="field">
 
-            <input
-                type="checkbox"
-                id="cleaning"
-                value="1500"
-            >
-
-            <label for="cleaning">
-                Чистка внутреннего блока
+            <label>
+                Тип монтажа
             </label>
 
-            <span class="price">
-                +1 500 ₽
-            </span>
+            <select id="breatherType">
 
-        </div>
+                <option value="9000">
+                    Стандартный — 9 000 ₽
+                </option>
 
+                <option value="12000">
+                    В откос — 12 000 ₽
+                </option>
 
-        <div class="check">
+                <option value="11000">
+                    В ПИК — 11 000 ₽
+                </option>
 
-            <input
-                type="checkbox"
-                id="freon"
-                value="2000"
-            >
-
-            <label for="freon">
-                Дозаправка фреоном
-            </label>
-
-            <span class="price">
-                +2 000 ₽
-            </span>
+            </select>
 
         </div>
 
 
-        <div class="check">
+        <div class="field">
 
-            <input
-                type="checkbox"
-                id="diagnostics"
-                value="1000"
-            >
-
-            <label for="diagnostics">
-                Расширенная диагностика
+            <label>
+                Количество бризеров
             </label>
 
-            <span class="price">
-                +1 000 ₽
-            </span>
+            <div class="quantity">
 
-        </div>
+                <button onclick="changeQuantity('breather', -1)">
+                    −
+                </button>
 
+                <input
+                    id="breatherQuantity"
+                    type="number"
+                    value="1"
+                    min="1"
+                    max="50"
+                >
 
-        <div class="check">
+                <button onclick="changeQuantity('breather', 1)">
+                    +
+                </button>
 
-            <input
-                type="checkbox"
-                id="height"
-                value="2500"
-            >
-
-            <label for="height">
-                Работы на высоте
-            </label>
-
-            <span class="price">
-                +2 500 ₽
-            </span>
+            </div>
 
         </div>
 
     </div>
 
 
-    <div class="card">
+    <!-- КНОПКА РАСЧЁТА -->
+
+    <div
+        class="card hidden"
+        id="calculateCard"
+    >
 
         <button
             class="calculate"
@@ -434,56 +435,118 @@ input:focus {
     </div>
 
 
+    <!-- РЕЗУЛЬТАТ -->
+
     <div
         class="card result"
         id="result"
     >
 
-        <div class="result-title">
+        <div class="result-label">
             Предварительная стоимость
         </div>
 
         <div class="total">
-            <span id="total">0</span>
-            <span class="rub">₽</span>
+            <span id="total">0</span> ₽
         </div>
 
 
         <div class="details">
 
             <div class="detail">
-                <span>Основная услуга</span>
-                <strong id="basePrice">0 ₽</strong>
+
+                <span id="serviceName">
+                    Услуга
+                </span>
+
+                <strong id="servicePrice">
+                    0 ₽
+                </strong>
+
             </div>
 
-            <div class="detail">
-                <span>Оборудование</span>
-                <strong id="equipmentPrice">0 ₽</strong>
-            </div>
 
             <div class="detail">
-                <span>Количество</span>
-                <strong id="quantityPrice">1 шт.</strong>
-            </div>
 
-            <div class="detail">
-                <span>Дополнительные работы</span>
-                <strong id="extraPrice">0 ₽</strong>
+                <span>
+                    Количество
+                </span>
+
+                <strong id="quantityResult">
+                    1 шт.
+                </strong>
+
             </div>
 
         </div>
 
 
+        <button
+            class="calculate"
+            onclick="showRequest()"
+        >
+            📩 Оставить заявку
+        </button>
+
         <div class="note">
-            Стоимость является предварительной.
-            Точная цена определяется после осмотра оборудования.
+            Точная стоимость подтверждается после оценки условий работы.
         </div>
 
     </div>
 
 
-    <div class="footer">
-        © Управление климата
+    <!-- ЗАЯВКА -->
+
+    <div
+        class="card request"
+        id="request"
+    >
+
+        <div class="title">
+            3. Оставьте заявку
+        </div>
+
+        <input
+            id="name"
+            type="text"
+            placeholder="Ваше имя"
+        >
+
+        <input
+            id="phone"
+            type="tel"
+            placeholder="Номер телефона"
+        >
+
+        <input
+            id="address"
+            type="text"
+            placeholder="Адрес объекта"
+        >
+
+        <textarea
+            id="comment"
+            placeholder="Комментарий (необязательно)"
+        ></textarea>
+
+
+        <button
+            class="send"
+            onclick="sendRequest()"
+        >
+            📲 Отправить заявку
+        </button>
+
+
+        <div class="note">
+            После подключения Telegram заявка будет отправляться непосредственно менеджеру.
+        </div>
+
+    </div>
+
+
+    <div class="note">
+        Москва и Московская область
     </div>
 
 </div>
@@ -491,102 +554,180 @@ input:focus {
 
 <script>
 
-function changeQuantity(value) {
+let currentService = null;
 
-    const input = document.getElementById("quantity");
 
-    let number = parseInt(input.value) || 1;
+/* Выбор услуги */
+
+function chooseService(service) {
+
+    currentService = service;
+
+
+    document
+        .getElementById("drillingButton")
+        .classList.remove("active");
+
+    document
+        .getElementById("breatherButton")
+        .classList.remove("active");
+
+
+    document
+        .getElementById("drillingCard")
+        .classList.add("hidden");
+
+    document
+        .getElementById("breatherCard")
+        .classList.add("hidden");
+
+
+    if (service === "drilling") {
+
+        document
+            .getElementById("drillingButton")
+            .classList.add("active");
+
+        document
+            .getElementById("drillingCard")
+            .classList.remove("hidden");
+
+    }
+
+
+    if (service === "breather") {
+
+        document
+            .getElementById("breatherButton")
+            .classList.add("active");
+
+        document
+            .getElementById("breatherCard")
+            .classList.remove("hidden");
+
+    }
+
+
+    document
+        .getElementById("calculateCard")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("result")
+        .classList.remove("show");
+
+}
+
+
+/* Количество */
+
+function changeQuantity(type, value) {
+
+    let input;
+
+
+    if (type === "drilling") {
+
+        input =
+            document.getElementById("drillingQuantity");
+
+    } else {
+
+        input =
+            document.getElementById("breatherQuantity");
+
+    }
+
+
+    let number =
+        parseInt(input.value) || 1;
+
 
     number += value;
+
 
     if (number < 1) {
         number = 1;
     }
 
-    if (number > 20) {
-        number = 20;
+
+    if (number > 50) {
+        number = 50;
     }
+
 
     input.value = number;
 }
 
 
+/* Расчёт */
+
 function calculate() {
 
-    const service =
-        parseFloat(
-            document.getElementById("service").value
-        );
-
-    const equipment =
-        parseFloat(
-            document.getElementById("equipment").value
-        );
-
-    const quantity =
-        parseInt(
-            document.getElementById("quantity").value
-        ) || 1;
+    let price = 0;
+    let quantity = 1;
+    let serviceName = "";
 
 
-    const extras = [
+    if (currentService === "drilling") {
 
-        "cleaning",
-        "freon",
-        "diagnostics",
-        "height"
+        price =
+            Number(
+                document.getElementById("diameter").value
+            );
 
-    ];
+        quantity =
+            Number(
+                document.getElementById("drillingQuantity").value
+            ) || 1;
 
+        serviceName =
+            "Алмазное бурение";
 
-    let extraTotal = 0;
-
-
-    extras.forEach(function(id) {
-
-        const checkbox =
-            document.getElementById(id);
-
-        if (checkbox.checked) {
-
-            extraTotal +=
-                parseFloat(checkbox.value) * quantity;
-
-        }
-
-    });
+    }
 
 
-    const baseTotal =
-        service * quantity;
+    if (currentService === "breather") {
 
-    const equipmentTotal =
-        baseTotal * (equipment - 1);
+        price =
+            Number(
+                document.getElementById("breatherType").value
+            );
+
+        quantity =
+            Number(
+                document.getElementById("breatherQuantity").value
+            ) || 1;
+
+        serviceName =
+            "Монтаж бризера";
+
+    }
+
 
     const total =
-        baseTotal +
-        equipmentTotal +
-        extraTotal;
+        price * quantity;
 
 
-    document.getElementById("total").textContent =
-        Math.round(total).toLocaleString("ru-RU");
+    document.getElementById("total")
+        .textContent =
+        total.toLocaleString("ru-RU");
 
 
-    document.getElementById("basePrice").textContent =
-        Math.round(baseTotal).toLocaleString("ru-RU") + " ₽";
+    document.getElementById("serviceName")
+        .textContent =
+        serviceName;
 
 
-    document.getElementById("equipmentPrice").textContent =
-        Math.round(equipmentTotal).toLocaleString("ru-RU") + " ₽";
+    document.getElementById("servicePrice")
+        .textContent =
+        price.toLocaleString("ru-RU") + " ₽";
 
 
-    document.getElementById("quantityPrice").textContent =
+    document.getElementById("quantityResult")
+        .textContent =
         quantity + " шт.";
-
-
-    document.getElementById("extraPrice").textContent =
-        Math.round(extraTotal).toLocaleString("ru-RU") + " ₽";
 
 
     document.getElementById("result")
@@ -597,6 +738,81 @@ function calculate() {
         .scrollIntoView({
             behavior: "smooth"
         });
+
+}
+
+
+/* Форма заявки */
+
+function showRequest() {
+
+    document.getElementById("request")
+        .classList.add("show");
+
+
+    document.getElementById("request")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* Отправка заявки */
+
+function sendRequest() {
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const phone =
+        document.getElementById("phone").value.trim();
+
+    const address =
+        document.getElementById("address").value.trim();
+
+    const comment =
+        document.getElementById("comment").value.trim();
+
+
+    if (!name) {
+
+        alert("Введите ваше имя");
+
+        return;
+    }
+
+
+    if (!phone) {
+
+        alert("Введите номер телефона");
+
+        return;
+    }
+
+
+    if (!address) {
+
+        alert("Введите адрес объекта");
+
+        return;
+    }
+
+
+    /*
+       Здесь позже подключим безопасную отправку
+       заявки через Telegram-бота.
+
+       Токен BotFather сюда НЕ вставляем.
+    */
+
+
+    alert(
+        "Спасибо, " +
+        name +
+        "! Заявка заполнена. Сейчас подключим её отправку в Telegram."
+    );
+
 }
 
 </script>
